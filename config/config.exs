@@ -25,3 +25,18 @@ config :logger, :console,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+
+
+
+# Add GitHub to your Überauth configuration
+config :ueberauth, Ueberauth,
+  # providers are who can user authenticate with for our application
+  providers: [
+    github: { Ueberauth.Strategy.Github, []}
+  ]
+
+
+# Update your provider configuration
+config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+  client_id: System.get_env("GITHUB_CLIENT_ID"),
+  client_secret: System.get_env("GITHUB_CLIENT_SECRET")

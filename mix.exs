@@ -20,7 +20,7 @@ defmodule Gameproject.Mixfile do
   def application do
     [
       mod: {Gameproject.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ueberauth, :ueberauth_github]
     ]
   end
 
@@ -44,7 +44,9 @@ defmodule Gameproject.Mixfile do
       {:distillery, "~> 1.5", runtime: false},
       ## ADDED DEPS ##
       {:comeonin, "~> 4.0"},
-      {:argon2_elixir, "~> 1.2"}
+      {:argon2_elixir, "~> 1.2"},
+      {:ueberauth, "~> 0.4"},
+      {:ueberauth_github, "~> 0.7"}
     ]
   end
 

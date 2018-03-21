@@ -25,6 +25,14 @@ defmodule GameprojectWeb.Router do
     delete "/logout", SessionController, :delete
   end
 
+  scope "/auth", GameprojectWeb do
+    pipe_through :browser
+
+    # the request function which is defined by the Ueberauth module
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callbac
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", GameprojectWeb do
   #   pipe_through :api
