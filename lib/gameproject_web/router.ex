@@ -30,7 +30,7 @@ defmodule GameprojectWeb.Router do
 
     # the request function which is defined by the Ueberauth module
     get "/:provider", AuthController, :request
-    get "/:provider/callback", AuthController, :callbac
+    get "/:provider/callback", AuthController, :callback
   end
 
   # Other scopes may use custom stacks.

@@ -38,5 +38,5 @@ config :ueberauth, Ueberauth,
 
 # Update your provider configuration
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-  client_id: System.get_env("GITHUB_CLIENT_ID"),
-  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
+  client_id: "1f2a056c12111306b48a",
+  client_secret: "d7fcfd86f2e3b71fca94f1246fe818f21570745a"
