@@ -60,34 +60,33 @@ defmodule Chatroom.Game do
  end
 
 #check if answer is correct and increment score
+
  def matchQuests(prev, question, answer) do
    active_quests = prev.active_quests
    questions = prev.questions
    p1_score = prev.p1_score
    p2_score = prev.p2_score
    p1_chance = prev.p1_chance
-   p2_chance= prev.p2_chance
+   p2_chance = prev.p2_chance
  
 
- {active_quests, p1_score, p2_score, p1_chance, p2_chance} = 
+ {active_quests, p1_score, p2_score, p1_chance, p2_chance} = cond do
+# {active_quests, p1_score,p2_score, p1_chance, p2_chance} = cond do  
+ p1_chance == 1 and getAnswer(questionId(question)) == answer 
+   -> {List.delete(active_quests, question), p1_score + getScore(question), p2_score, 0, 1}
 
-cond do
-   
- p1_chance == 1 and getAnswer(questionId(question)) == answer and Enum.member?(active_quests, question)
-  -> {List.delete(active_quests, question), p1_score + getScore(question), p2_score, 0, p2_chance}
+    p1_chance == 1 and getAnswer(questionId(question)) != answer and Enum.member?(active_quests, question) -> {List.delete(active_quests, question), p1_score, p2_score, 0, 1}
 
-   p1_chance == 1 and getAnswer(questionId(question)) != answer and Enum.member?
-(active_quests, question) -> {List.delete(active_quests, question), p1_score, p2_score, 0, p2_chance}
+ p2_chance == 1 and getAnswer(questionId(question)) == answer and Enum.member?(active_quests, question) -> 
+  {List.delete(active_quests, question), p1_score, p2_score + getScore(question), 1,0}
 
-   p2_chance == 1 and getAnswer(questionId(question)) == answer and Enum.member?(active_quests, question)
-  -> 
-     {List.delete(active_quests, question), p1_score, p2_score + getScore(question), 1,0}
+# p2_chance == 1 and getAnswer(questionId(question)) != answer and Enum.member?
+#(active_quests, question) -> {List.delete(active_quests, question), p1_score, p#2_score, 1, 0}
 
-   p2_chance == 1 and getAnswer(questionId(question)) != answer and Enum.member?
-(active_quests, question)
-  -> {List.delete(active_quests, question), p1_score, p2_score, 1, 0}
+ p2_chance == 1 and getAnswer(questionId(question)) != answer and Enum.member?(active_quests, question) -> {List.delete(active_quests, question), p1_score, p2_score, 1, 0}
 
-  true ->  {active_quests, p1_score, p2_score, p1_chance, p2_chance}
+
+ true ->  {active_quests, p1_score, p2_score, p1_chance, p2_chance}
 
  end
    
@@ -101,12 +100,13 @@ end
 
 #get score of a given question
  def getScore(question) do
-  difficulty = from u in "quests", where: u.question == ^question,select: u.difficulty
+  difficulty = Repo.all(from u in "quests", where: u.question == ^question,select: u.difficulty)
 
+IO.inspect(difficulty)
  cond do 
-  difficulty == "easy" -> 10
-  difficulty == "medium"-> 20
-  difficulty == "hard" -> 30
+  difficulty == ["easy"] -> 10
+  difficulty == ["medium"]-> 20
+  difficulty == ["hard"] -> 30
  end
 
  end
