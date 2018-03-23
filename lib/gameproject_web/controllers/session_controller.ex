@@ -13,6 +13,7 @@ defmodule GameprojectWeb.SessionController do
       {:ok, user} ->
         conn
         |> put_session(:current_user, user.id)
+        |> put_session(:current_username, user.username)
         |> put_flash(:info, "Logged in")
         |> redirect(to: "/")
       :error ->
@@ -25,6 +26,7 @@ defmodule GameprojectWeb.SessionController do
   def delete(conn, _) do
     conn
     |> delete_session(:current_user)
+    |> delete_session(:current_username)
     |> put_flash(:info, "Logged out")
     |> redirect(to: "/")
   end

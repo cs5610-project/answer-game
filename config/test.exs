@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :gameproject, Gameproject.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "gamer",
+  password: "gamer",
   database: "gameproject_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

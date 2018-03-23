@@ -1,0 +1,33 @@
+<h2>Show Quest</h2>
+
+<ul>
+
+  <li>
+    <strong>Answer:</strong>
+    <%= @quest.answer %>
+  </li>
+
+  <li>
+    <strong>Difficulty:</strong>
+    <%= @quest.difficulty %>
+  </li>
+
+  <li>
+    <strong>Question:</strong>
+    <%= @quest.question %>
+  </li>
+
+  <li>
+    <strong>Topic:</strong>
+    <%= @quest.topic %>
+  </li>
+
+  <li>
+    <strong>Alternative:</strong>
+    <%= @quest.alternative %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: quest_path(@conn, :edit, @quest) %></span>
+<span><%= link "Back", to: quest_path(@conn, :index) %></span>

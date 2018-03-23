@@ -31,6 +31,7 @@ defmodule GameprojectWeb.AuthController do
         conn
         |> put_flash(:info, "Welcome back!")
         |> put_session(:current_user, user.id)
+        |> put_session(:current_username, user.username)
         |> redirect(to: page_path(conn, :index))
       {:error, _reason} ->
         conn

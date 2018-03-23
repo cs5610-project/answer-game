@@ -1,0 +1,18 @@
+<script>
+  window.username = "<%= Plug.Conn.get_session(@conn, :current_username) %>"
+</script>
+
+<ul id="msg-list"
+  style="list-style: none; min-height:200px; border: 1px solid #e5e5e5;
+margin: 10px; padding: 10px;">
+</ul>
+
+
+<div class="row">
+  <div class="col-xs-3">
+    <input type="text" id="name" class="form-control" autofocus readonly>
+  </div>
+  <div class="col-xs-9">
+    <input type="text" id="message" class="form-control" placeholder="Message">
+  </div>
+</div>

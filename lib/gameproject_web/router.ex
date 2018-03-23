@@ -21,6 +21,11 @@ defmodule GameprojectWeb.Router do
     get "/games/:game_name", PageController, :game
 
     resources "/users", UserController
+    resources "/messages", MessageController
+    resources "/quests", QuestController
+
+
+
     ## Routes for sessions ##
     get "/login", SessionController, :new
     post "/login", SessionController, :create

@@ -12,3 +12,41 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
+
+import socket from "./socket"
+
+var channel = socket.channel('games:*', {});
+
+channel.on('shout', function (input){
+  var li = document.createElement("li");
+  var name = input.name;
+  li.innerHTML = '<b>' + name + '</b>: ' + input.message;
+  ul.appendChild(li);
+});
+
+
+var ul = document.getElementById('msg-list');
+var name = document.getElementById('name');
+name.value = window.username;
+var message = document.getElementById('message');
+
+// "listen" for the [Enter] keypress event to send a message:
+message.addEventListener('keypress', function (event) {
+  if (event.which == 13 && message.value.length > 0) {
+    channel.push('shout', {
+      name: name.value,
+      message: message.value
+    });
+    message.value = '';
+  }
+});
+
+
+channel
+  .join()
+  .receive('ok', resp => {
+    console.log('Joined successfully', resp);
+  })
+  .receive('error', resp => {
+    console.log('Unable to join', resp);
+  });
