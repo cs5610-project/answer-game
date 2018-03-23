@@ -20,7 +20,7 @@ import socket from "./socket"
 
 var channel = socket.channel('room:*', {});
 
-channel.on('shout', function (input) 
+channel.on('shout', function (input){ 
   var li = document.createElement("li");
   var name = input.name;    
   li.innerHTML = '<b>' + name + '</b>: ' + input.message; 
