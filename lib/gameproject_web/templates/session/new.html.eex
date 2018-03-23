@@ -29,8 +29,7 @@
 
       </div>
       <div class="card-footer text-muted">
-        OAuth Here...
-        <!--Don't have an account yet? Register <%= link "here", to: user_path(@conn, :new), class: "btn btn-outline-secondary btn-sm"%> -->
+        <%= link "Login via Github", to: "/auth/github", class: "btn btn-primary" %>
       </div>
     </div>
   </div>

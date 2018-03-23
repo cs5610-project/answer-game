@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <h2>Welcome to Our Answer Game</h2>
   <%= if logged_in?(@conn) do %>
-    <%= link "Explore Game!", to: page_path(@conn, :index), class: "btn btn-primary" %>
+    <%= link "Explore Game!", to: page_path(@conn, :main), class: "btn btn-primary" %>
   <% else %>
     <%= link "Login", to: session_path(@conn, :new), class: "btn btn-primary" %>
     <%= link "Register", to: user_path(@conn, :new), class: "btn btn-secondary" %>

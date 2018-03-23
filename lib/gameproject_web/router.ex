@@ -17,6 +17,8 @@ defmodule GameprojectWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/main", PageController, :main
+    get "/games/:game_name", PageController, :game
 
     resources "/users", UserController
     ## Routes for sessions ##
