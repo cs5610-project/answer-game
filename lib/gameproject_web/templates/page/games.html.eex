@@ -1,6 +1,14 @@
 <script>
   window.username = "<%= Plug.Conn.get_session(@conn, :current_username) %>"
+  window.gameName = "<%= @game_name %>"
 </script>
+
+
+<div id="game">
+  Game Loading...
+</div>
+
+<hr>
 
 <ul id="msg-list"
   style="list-style: none; min-height:200px; border: 1px solid #e5e5e5;

@@ -6,7 +6,7 @@ defmodule GameprojectWeb.PageController do
   end
 
   def game(conn, params) do
-    render conn, "chatroom.html", game_name: params["game_name"]
+    render conn, "games.html", game_name: params["game_name"]
   end
 
   def main(conn, _params) do
