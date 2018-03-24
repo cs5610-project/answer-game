@@ -13,32 +13,32 @@
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
 
-import socket from "./socket";
+import socket from "./socket"
 
-import game_init from "./answer";
+var channel = socket.channel('games:*', {});
 
-
-let channel = socket.channel('chat_room:lobby', {});
-let list = $('#message-list');
-let message = $('#msg');
-let name = $('#name');
-
-message.on('keypress', event => {
-  if(event.keyCode == 13) { // hit enter
-    channel.push('shout', { // push the channel 'shout'
-      name: name.val(),
-      message: message.val()
-    });
-    message.val('');
-  }
+channel.on('shout', function (input){
+  var li = document.createElement("li");
+  var name = input.name;
+  li.innerHTML = '<b>' + name + '</b>: ' + input.message;
+  ul.appendChild(li);
 });
 
-channel.on('shout', payload => {
-  // the name entered to the name bar OR logged in user
-  list.append(`<b>${payload.name || `new_user`}:</b> ${payload.message}<br>`);
-  list.prop({
-    scrollTop: list.prop('scrollHeight')
-  });
+
+var ul = document.getElementById('msg-list');
+var name = document.getElementById('name');
+name.value = window.username;
+var message = document.getElementById('message');
+
+// "listen" for the [Enter] keypress event to send a message:
+message.addEventListener('keypress', function (event) {
+  if (event.which == 13 && message.value.length > 0) {
+    channel.push('shout', {
+      name: name.value,
+      message: message.value
+    });
+    message.value = '';
+  }
 });
 
 
@@ -50,22 +50,3 @@ channel
   .receive('error', resp => {
     console.log('Unable to join', resp);
   });
-
-
-
-
-  function init() {
-
-
-    let root = document.getElementById('game');
-    if(!root) {
-      return;
-    }
-
-    game_init(root, channel);
-
-  }
-
-
-  // Use jQuery to delay until page loaded.
-  $(init);

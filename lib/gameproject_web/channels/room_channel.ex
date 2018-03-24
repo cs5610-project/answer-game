@@ -3,24 +3,14 @@ defmodule GameprojectWeb.RoomChannel do
 
   import Ecto.Query
 
-  def join("games:" <> name, payload, socket) do
+  def join("games:*", payload, socket) do
     if authorized?(payload) do
       send(self(), :after_join)
-
-      game = Gameproject.GameBackup.load(name) || Gameproject.Chatroom.Game.load()
-
-      socket = socket
-      |> assign(:game, game)
-      |> assign(:name, name)
-
-      {:ok, %{ "view" => Gameproject.Chatroom.Game.client_view(game) }, socket}
+      {:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
     end
   end
-
-
-
 
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
