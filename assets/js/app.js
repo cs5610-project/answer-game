@@ -13,7 +13,9 @@
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
 
-import socket from "./socket"
+import socket from "./socket";
+
+//import game_init from "./answer";
 
 var channel = socket.channel('games:*', {});
 
@@ -23,6 +25,18 @@ channel.on('shout', function (input){
   li.innerHTML = '<b>' + name + '</b>: ' + input.message;
   ul.appendChild(li);
 });
+
+$("#confirm-btn-new").click( () => {
+  let name = $("#name-input").val();
+  window.location = `/games/${name}`;
+})
+
+
+$("#confirm-btn-old").click( () => {
+  let name = $("#select-input option:selected").val();
+  window.location = `/games/${name}`;
+})
+
 
 
 var ul = document.getElementById('msg-list');
@@ -50,3 +64,20 @@ channel
   .receive('error', resp => {
     console.log('Unable to join', resp);
   });
+
+/*
+function init() {
+
+  let root = document.getElementById('game');
+  if(!root) {
+    return;
+  }
+
+  game_init(root, channel);
+
+}
+
+
+// Use jQuery to delay until page loaded.
+$(init);
+*/

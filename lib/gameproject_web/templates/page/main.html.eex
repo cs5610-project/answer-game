@@ -1,1 +1,24 @@
-<h1>Main Page</h1>
+<div class="wrapper">
+  <div class="row">
+    <div class="col">
+      <h2 id="index-page">Choose Your Own Game Name:</h2>
+      <input type="text" name="name" id="name-input">
+      <button id="confirm-btn-new">Confirm</button>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col">
+      <h2 id="index-page">Join An Existed Game: </h2>
+      <select id="select-input">
+        <option value="Volvsssssssssssssssssso">Volvsssssssssssssssssso</option>
+        <option value="saab">Saab</option>
+        <option value="opel">Opel</option>
+        <option value="audi">Audi</option>
+      </select>
+      <button id="confirm-btn-old">Confirm</button>
+    </div>
+  </div>
+</div>
