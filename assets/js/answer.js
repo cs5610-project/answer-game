@@ -14,7 +14,7 @@ class Answer extends React.Component{
     this.channel = props.channel;
 
     this.state = {
-      active_quests: [],
+      active_quests: ["1","2"],
       questions: [],
       p1_score: 0,
       p2_score: 0,
