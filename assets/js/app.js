@@ -15,7 +15,7 @@ import "phoenix_html"
 
 import socket from "./socket";
 
-//import game_init from "./answer";
+import game_init from "./answer";
 
 var channel = socket.channel('games:*', {});
 
@@ -65,7 +65,7 @@ channel
     console.log('Unable to join', resp);
   });
 
-/*
+
 function init() {
 
   let root = document.getElementById('game');
@@ -73,6 +73,7 @@ function init() {
     return;
   }
 
+  let channel = socket.channel("games:" + window.gameName, {});
   game_init(root, channel);
 
 }
@@ -80,4 +81,4 @@ function init() {
 
 // Use jQuery to delay until page loaded.
 $(init);
-*/
+

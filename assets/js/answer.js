@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import { Button } from 'reactstrap';
 
 export default function game_init(root, channel) {
-  ReactDOM.render(<Answer channel={channel} />, root);
+  ReactDOM.render(<Answer channel = {channel} />, root);
 }
 
-class Answer extends React.Component {
+class Answer extends React.Component{
 
   constructor(props) {
     super(props);
