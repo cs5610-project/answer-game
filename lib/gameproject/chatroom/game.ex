@@ -112,4 +112,23 @@ defmodule Gameproject.Chatroom.Game do
 
     end
 
+    def client_view(game) do
+
+	active_quests = game.active_quests
+	questions = game.questions
+	p1_score = game.p1_score
+	p2_score = game.p2_score
+	p1_chance = game.p1_chance
+	p2_chance = game.p2_chance
+    %{
+      active_quests: active_quests,
+      questions: questions,
+      p1_score: p1_score,
+      p2_score: p2_score,
+      p1_chance: p1_chance,
+      p2_chance: p2_chance
+
+    }
+       
+    end
   end

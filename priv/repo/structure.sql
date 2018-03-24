@@ -42,7 +42,8 @@ CREATE TABLE messages (
     message character varying(255),
     name character varying(255),
     inserted_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    game_name character varying(255)
 );
 
 
@@ -214,5 +215,5 @@ CREATE UNIQUE INDEX users_username_index ON users USING btree (username);
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO public."schema_migrations" (version) VALUES (20180319215728), (20180323180622), (20180323181056);
+INSERT INTO public."schema_migrations" (version) VALUES (20180319215728), (20180323180622), (20180323181056), (20180324153133);
 

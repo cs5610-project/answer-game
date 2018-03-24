@@ -17,7 +17,7 @@ import socket from "./socket";
 
 import game_init from "./answer";
 
-var channel = socket.channel('games:*', {});
+var channel = socket.channel('games:' + window.gameName, {});
 
 channel.on('shout', function (input){
   var li = document.createElement("li");
@@ -49,7 +49,8 @@ message.addEventListener('keypress', function (event) {
   if (event.which == 13 && message.value.length > 0) {
     channel.push('shout', {
       name: name.value,
-      message: message.value
+      message: message.value,
+      game_name: window.gameName
     });
     message.value = '';
   }
