@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button } from 'reactstrap';
 
 export default function game_init(root, channel) {
   ReactDOM.render(<Answer channel = {channel} />, root);
@@ -14,8 +13,8 @@ class Answer extends React.Component{
     this.channel = props.channel;
 
     this.state = {
-      active_quests: ["1","2"],
-      questions: [],
+      active_quests: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+      questions: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
       p1_score: 0,
       p2_score: 0,
       p1_chance: 1,
@@ -28,8 +27,38 @@ class Answer extends React.Component{
     this.setState(msg.view);
   }
 
+  user_click(ev) {
+    let index = $(ev.target).attr('index');
+    if($(ev.target).hasClass('hide-card')){
+      return;
+    }
+    $(ev.target).addClass('hide-card');
+    let question = this.state.questions[index];
+    document.createElement('p');
+    document.createTextNode(question);
+    
+
+    //$('#question').
+  }
+/*
+  user_click(index) {
+
+      this.channel.push("user_click", { index: index} )
+      .receive("ok", this.gotView.bind(this));
+      let attempts = this.state.attempts;
+      if (attempts % 2 == 1) {
+        console.log(attempts);
+        window.setTimeout( () => {
+          this.channel.push("card_match", { index: index})
+          .receive("ok", this.gotView.bind(this));
+        }, 1500);
+      }
+  }
+*/
+
+
   render(){
-    let active_quests = this.state.active_quests;
+    let cards = this.state.active_quests;
 
     return(
       <div className='container'>
@@ -40,11 +69,15 @@ class Answer extends React.Component{
         <div className='row'>
           <div className='col-md-12'>
             <div className='grid-container'>
-              {active_quests.map( (card,i) =>
-                <div className="grid-item" key={i} ><Card root={this} index={card["index"]} /></div>
+              {cards.map( (card,i) =>
+                <div className="grid-item" key={i} ><Card root={this} index={i} /></div>
               )}
             </div>
           </div>
+        </div>
+
+        <div className='row' id='question'>
+
         </div>
 
       </div>
@@ -52,10 +85,13 @@ class Answer extends React.Component{
   }
 }
 
+
+
 function Card(props) {
   let cards = props.root.state.active_quests;
-
-  return(<div className="hide-card" onClick={() => console.log("TODO")}>??</div>);
+  let index = props.index;
+  // onClick={ () => props.root.user_click(props.index)}
+  return(<div className="show-card" onClick={(ev) => props.root.user_click(ev)}>{index}</div>);
 
 }
 

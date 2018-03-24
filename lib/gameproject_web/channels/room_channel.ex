@@ -9,16 +9,21 @@ defmodule GameprojectWeb.RoomChannel do
 
       #game = Gameproject.GameBackup.load(name) || Gameproject.Chatroom.Game.load()
 
-      #socket = socket
-      #|> assign(:game, game)
-      #|> assign(:name, name)
+      game = Gameproject.GameBackup.load(name) || Gameproject.Chatroom.Game.load()
 
-      #{:ok, %{ "view" => Gameproject.Chatroom.Game.client_view(game) }, socket}
-      {:ok, socket}
+
+      socket = socket
+      |> assign(:game, game)
+      |> assign(:name, name)
+
+      {:ok, %{ "view" => Gameproject.Chatroom.Game.client_view(game) }, socket}
+      #{:ok, socket}
     else
       {:error, %{reason: "unauthorized"}}
     end
   end
+
+
 
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
@@ -40,7 +45,7 @@ defmodule GameprojectWeb.RoomChannel do
   end
 
   def handle_info(:after_join, socket) do
-    Gameproject.Chatroom.Message.get_messages()
+    Gameproject.Chatroom.Message.get_messages(socket.assigns[:name])
     |> Enum.each(fn msg -> push(socket, "shout", %{
       name: msg.name,
       message: msg.message,

@@ -12,7 +12,25 @@ defmodule Gameproject.Chatroom.Game do
       p2_score: 0,
       p1_chance: 1,
       p2_chance: 1
+    }
+  end
 
+  def client_view(game) do
+
+    active_quests = game.active_quests
+    questions = game.questions
+    p1_score = game.p1_score
+    p2_score = game.p2_score
+    p1_chance = game.p1_chance
+    p2_chance = game.p2_chance
+
+    %{
+      active_quests: active_quests,
+      questions: questions,
+      p1_score: p1_score,
+      p2_score: p2_score,
+      p1_chance: p1_chance,
+      p2_chance: p2_chance
     }
   end
 
@@ -40,7 +58,7 @@ defmodule Gameproject.Chatroom.Game do
   #get all questions of the game
   def getAllQuestions()do
     quests = []
-    quests = quests ++ twoRandomQuests("space", "easy")
+    quests = quests ++ twoRandomQuests("WHo am I", "easy")
     quests = quests ++ twoRandomQuests("technology", "easy")
     quests = quests ++ twoRandomQuests("animals", "easy")
     quests = quests ++ twoRandomQuests("food", "easy")
@@ -111,5 +129,6 @@ defmodule Gameproject.Chatroom.Game do
       end
 
     end
+
 
   end

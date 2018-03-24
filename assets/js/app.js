@@ -73,7 +73,7 @@ function init() {
     return;
   }
 
-  let channel = socket.channel("games:" + window.gameName, {});
+  //let channel = socket.channel("games:" + window.gameName, {});
   game_init(root, channel);
 
 }
@@ -81,4 +81,3 @@ function init() {
 
 // Use jQuery to delay until page loaded.
 $(init);
-

@@ -14,3 +14,33 @@ footer.self-footer {
   background-color: #DCDCDC;
   margin-top: 60px;
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    background-color: blue;
+    padding: 10px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.grid-item {
+    border: 2px solid black;
+    text-align: center;
+    font-size: 30px;
+    background-color: lightblue;
+    margin: 5px;
+
+}
+
+.grid-item:hover {
+    background-color: brown;
+}
+
+.show-card{
+
+}
+
+.hide-card {
+    visibility: hidden;
+}
