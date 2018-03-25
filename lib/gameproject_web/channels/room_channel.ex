@@ -35,6 +35,7 @@ defmodule GameprojectWeb.RoomChannel do
   # broadcast to everyone in the current topic (room:lobby).
   def handle_in("shout", payload, socket) do
     Gameproject.Chatroom.Message.changeset(%Gameproject.Chatroom.Message{}, payload) |> Gameproject.Repo.insert
+    Gameproject.GameBackup.save(socket.assigns[:name],socket.assigns[:game])
     broadcast socket, "shout", payload
     {:noreply, socket}
   end
@@ -49,6 +50,7 @@ defmodule GameprojectWeb.RoomChannel do
     |> Enum.each(fn msg -> push(socket, "shout", %{
       name: msg.name,
       message: msg.message,
+      game_name: msg.game_name,
       }) end)
     {:noreply, socket} # :noreply
   end
