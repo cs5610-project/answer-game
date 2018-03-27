@@ -1,9 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Button} from 'reactstrap';
 
 export default function game_init(root, channel) {
   ReactDOM.render(<Answer channel = {channel} />, root);
 }
+
+const initState = {
+      active_scores: [],
+      questions: [],
+      p1_score: 0,
+      p2_score: 0,
+      p1_chance: 1,
+      p2_chance: 1,
+      question_alts: [],
+      user_answer: '',
+      answer: ''     
+
+    }
+
 
 class Answer extends React.Component{
 
@@ -12,87 +27,154 @@ class Answer extends React.Component{
 
     this.channel = props.channel;
 
-    this.state = {
-      active_quests: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
-      questions: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
-      p1_score: 0,
-      p2_score: 0,
-      p1_chance: 1,
-      p2_chance: 1
-    }
+    this.state = initState;
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.channel.join()
+    .receive("ok", this.gotView.bind(this))
+    .receive("error", resp => { console.log("Unable to join", resp) })
   }
 
   gotView(msg) {
-    console.log("Got View", msg);
     this.setState(msg.view);
   }
+ 
 
-  user_click(ev) {
-    let index = $(ev.target).attr('index');
-    if($(ev.target).hasClass('hide-card')){
-      return;
-    }
-    $(ev.target).addClass('hide-card');
-    let question = this.state.questions[index];
-    document.createElement('p');
-    document.createTextNode(question);
-    
-
-    //$('#question').
+ handleChange(event) {
+    this.setState({user_answer: event.target.value});
   }
-/*
-  user_click(index) {
 
-      this.channel.push("user_click", { index: index} )
-      .receive("ok", this.gotView.bind(this));
-      let attempts = this.state.attempts;
-      if (attempts % 2 == 1) {
-        console.log(attempts);
-        window.setTimeout( () => {
-          this.channel.push("card_match", { index: index})
-          .receive("ok", this.gotView.bind(this));
-        }, 1500);
-      }
+  handleSubmit(event) {
+    event.preventDefault();
+    var question = document.getElementById('question').innerHTML;
+   var  answer = this.state.user_answer;
+    console.log(question, answer);
+    console.log(this.state.answer);
+    if(this.state.answer[0] === answer){
+      
+       this.channel.push("score-check", {question: question}).receive("ok", this.gotView.bind(this))
+       alert("correct answer");
+}    else
+    {
+    alert(`Wrong ! You should chose ${this.state.answer} .`);
   }
-*/
+}
 
+ user_click(index1)
+{
+    let active_scores = this.state.active_scores;
+    if(active_scores[index1] != "*"){
+       console.log(this.state.questions[index1])
+       document.getElementById('question').innerHTML = this.state.questions[index1];
+      
+       this.channel.push("user-click", {index: index1}).receive("ok", this.gotView.bind(this))
+}
+   else{
+    alert("Question Attempted");
+}
+} 
 
   render(){
-    let cards = this.state.active_quests;
-
+    let cards = this.state.active_scores;
+    let topics = ["Space", "Technology", "Animals", "Food", "Art"];
     return(
       <div className='container'>
         <div className='row'>
-          <Score state={this.state} />
-        </div>
+          <Score state = {this.state} />
+         </div>
 
+         <div className = 'row'>
+                   <div className='col-md-8'>
+            <div className='grid-topics'>
+
+            {topics.map( (topic,i) =>
+                 <Topics value={topic}  key = {i} />
+              )}
+         </div>
+         </div>
+        </div>
         <div className='row'>
-          <div className='col-md-12'>
+          <div className='col-md-8'>
             <div className='grid-container'>
+
               {cards.map( (card,i) =>
-                <div className="grid-item" key={i} ><Card root={this} index={i} /></div>
+               
+                 <Card  onClick =  {this.user_click.bind(this,i)} value={card}  key = {i}/>
               )}
             </div>
           </div>
         </div>
 
         <div className='row' id='question'>
-
         </div>
+ <form onSubmit={this.handleSubmit}>        
+        <ul>
+          <li>
+            <label class = "radio-inline">
+              <input
+                type="radio"
+                value= {this.state.question_alts[0]}
+                checked={this.state.user_answer ===  this.state.question_alts[0]}
+                onChange={this.handleChange}
+              />
+              {this.state.question_alts[0]}
+            </label>
+          </li>
+          
+          <li>
+            <label class = "radio-inline">
+              <input
+                type="radio"
+                value= {this.state.question_alts[1]}
+                checked={this.state.user_answer === this.state.question_alts[1]}
+                onChange={this.handleChange}
+              />
+
+             {this.state.question_alts[1]}
+            </label>
+          </li>
+          <li>
+            <label class = "radio-inline">
+              <input
+                type="radio"
+                value= {this.state.question_alts[2]}
+                checked={this.state.user_answer === this.state.question_alts[2]}
+                onChange={this.handleChange}
+              />
+              {this.state.question_alts[2]}
+            </label>
+          </li>
+        
+            <li>
+            <label class = "radio-inline">
+              <input
+                type="radio"
+                value= {this.state.question_alts[3]}
+                checked={this.state.user_answer === this.state.question_alts[3]}
+                onChange={this.handleChange}
+              />
+              {this.state.question_alts[3]}
+            </label>
+          </li>
+
+        </ul>
+
+        <button type="submit" className="submit-button">Make your choice</button>
+      </form>
 
       </div>
     );
-  }
+ 
+}
 }
 
 
 
 function Card(props) {
-  let cards = props.root.state.active_quests;
-  let index = props.index;
-  // onClick={ () => props.root.user_click(props.index)}
-  return(<div className="show-card" onClick={(ev) => props.root.user_click(ev)}>{index}</div>);
-
+  return ( <div className ='show-card'>
+        	<Button className ={props.className}  onClick ={props.onClick}>
+        	{props.value}
+</Button></div>);
 }
 
 
@@ -107,3 +189,68 @@ function Score(props) {
     </div>
   );
 }
+
+function Topics(props) {
+return (
+   <div className = 'topic-card' >
+                <Button className ={props.className} >
+                {props.value}
+</Button></div>);
+}
+/*
+function Alternatives(props){
+// console.log(props.value.length);
+  if(props.value.length == 0){
+   console.log(props.value);
+   return(<div> </div>);
+}
+else{
+return (<div>
+        <h1> hey</h1>
+    <form onSubmit={this.handleSubmit}>
+        <p className="title">Select a pizza size:</p>
+        
+        <ul>
+          <li>
+            <label>
+              <input
+                type="radio"
+                value= {Enum.at(props.value, 0)}
+                checked={this.state.user_answer == Enum.at(props.value, 0)}
+                onChange={this.handleChange}
+              />
+              {Enum.at(props.value, 0)}
+            </label>
+          </li>
+          
+          <li>
+            <label>
+              <input
+                type="radio"
+                value= "medium"
+                checked={this.state.user_answer == "medium"}
+                onChange={this.handleChange}
+              />
+              "medium"
+            </label>
+          </li>
+
+          <li>
+            <label>
+              <input
+                type="radio"
+                value= "large"
+                checked={this.state.user_answer == "large"}
+                onChange={this.handleChange}
+              />
+              "large"
+            </label>
+          </li>
+        </ul>
+
+        <button type="submit" className="submit-button">Make your choice</button>
+      </form>
+</div>);
+}
+}
+*/

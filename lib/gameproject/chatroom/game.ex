@@ -6,31 +6,15 @@ defmodule Gameproject.Chatroom.Game do
   #Initial state of game
   def load() do
     %{
-      active_quests: getAllQuestions(),
+      active_scores: getAllScores(),
       questions: getAllQuestions(),
       p1_score: 0,
       p2_score: 0,
-      p1_chance: 1,
-      p2_chance: 1
-    }
-  end
-
-  def client_view(game) do
-
-    active_quests = game.active_quests
-    questions = game.questions
-    p1_score = game.p1_score
-    p2_score = game.p2_score
-    p1_chance = game.p1_chance
-    p2_chance = game.p2_chance
-
-    %{
-      active_quests: active_quests,
-      questions: questions,
-      p1_score: p1_score,
-      p2_score: p2_score,
-      p1_chance: p1_chance,
-      p2_chance: p2_chance
+      p1_chance: 0,
+      p2_chance: 0,
+     question_alts: [],
+     user_answer: '',
+     answer: ''
     }
   end
 
@@ -44,8 +28,8 @@ defmodule Gameproject.Chatroom.Game do
   end
 
   #get answer to a given question
-  def getAnswer(qid) do
-    Repo.all(from u in "quests", where: u.id == ^qid, select: u.answer)
+  def getAnswer(question) do
+    Repo.all(from u in "quests", where: u.question == ^question, select: u.answer)
   end
 
   # get alternatives to given question
@@ -58,7 +42,7 @@ defmodule Gameproject.Chatroom.Game do
   #get all questions of the game
   def getAllQuestions()do
     quests = []
-    quests = quests ++ twoRandomQuests("WHo am I", "easy")
+    quests = quests ++ twoRandomQuests("space", "easy")
     quests = quests ++ twoRandomQuests("technology", "easy")
     quests = quests ++ twoRandomQuests("animals", "easy")
     quests = quests ++ twoRandomQuests("food", "easy")
@@ -81,7 +65,7 @@ defmodule Gameproject.Chatroom.Game do
   #check if answer is correct and increment score
 
   def matchQuests(prev, question, answer) do
-    active_quests = prev.active_quests
+    active_quests = prev.active_scores
     questions = prev.questions
     p1_score = prev.p1_score
     p2_score = prev.p2_score
@@ -111,6 +95,52 @@ defmodule Gameproject.Chatroom.Game do
 
     end
 
+def getScoreCheck(prev, question)
+do
+    active_scores = prev.active_scores
+    questions = prev.questions
+    p1_score = prev.p1_score
+    p2_score = prev.p2_score
+    p1_chance = prev.p1_chance
+    p2_chance = prev.p2_chance
+
+    {p1_score, p2_score} = {p1_score + getScore(question), p2_score}
+   
+   Map.merge(prev, %{active_scores: active_scores, questions: questions, p1_score: p1_score, p2_score: p2_score, p1_chance: p1_chance, p2_chance: p2_chance, question_alts: [], user_answer: '', answer: ''})
+
+
+end
+
+ def getQuestionDetails(prev, index) do
+
+    active_scores = prev.active_scores
+    questions = prev.questions
+    p1_score = prev.p1_score
+    p2_score = prev.p2_score
+    p1_chance = prev.p1_chance
+    p2_chance = prev.p2_chance
+    question_alts = prev.question_alts
+    IO.inspect("quest")
+   IO.inspect(Enum.at(prev.questions,1))
+    question_alts = Repo.all(from u in "quests", where: u.question == ^Enum.at(prev.questions, index), select: u.alternative) |> List.flatten
+    answer = getAnswer(Enum.at(prev.questions, index))
+   IO.inspect(active_scores)
+   active_scores =  List.replace_at(active_scores, index,"*")
+#   question_alts = Repo.all(from u in "quests", where: u.question == ^questions[index], select: u.alternative) |> Enum.flatten
+   IO.inspect("yaya")
+   IO.inspect(active_scores)
+Map.merge(prev, %{active_scores: active_scores, questions: questions, p1_score: p1_score, p2_score: p2_score, p1_chance: p1_chance, p2_chance: p2_chance, question_alts: question_alts, user_answer: prev.user_answer, answer: answer})
+end
+
+
+ def getIndex(quests, question)do
+
+Enum.with_index(quests) |> Enum.filter_map(fn {x, _} -> x == question end, 
+fn {_, i} -> i end) |> List.first 
+end
+
+
+
     #get question id from question
     def questionId(question ) do
       Repo.all(from u in "quests", where: u.question == ^question, select: u.id)
@@ -129,6 +159,13 @@ defmodule Gameproject.Chatroom.Game do
       end
 
     end
-
+  
+  def getAllScores()do
+    scores = []
+    scores =  scores ++ List.duplicate(10, 10)
+    scores = scores ++ List.duplicate(20,10)
+    scores = scores ++ List.duplicate(30,10)
+  
+end
 
   end
