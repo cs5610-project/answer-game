@@ -104,10 +104,36 @@ do
     p1_chance = prev.p1_chance
     p2_chance = prev.p2_chance
 
-    {p1_score, p2_score} = {p1_score + getScore(question), p2_score}
-   
-   Map.merge(prev, %{active_scores: active_scores, questions: questions, p1_score: p1_score, p2_score: p2_score, p1_chance: p1_chance, p2_chance: p2_chance, question_alts: [], user_answer: '', answer: ''})
+    
+      p1_score =
+        if p1_chance == 1 do
+          p1_score + getScore(question)
+        else
+          p1_score
+        end
 
+      p2_score =
+        if p2_chance == 1 do
+          p2_score + getScore(question)
+        else
+          p2_score
+        end
+
+      p1_chance =
+        if p1_chance == 1 do
+          0
+        else
+          1
+        end
+
+      p2_chance =
+        if p2_chance == 1 do
+          0
+        else
+          1
+        end
+
+Map.merge(prev, %{active_scores: active_scores, questions: questions, p1_score: p1_score, p2_score: p2_score, p1_chance: p1_chance, p2_chance: p2_chance, question_alts: [], user_answer: '', answer: ''})
 
 end
 

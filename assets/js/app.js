@@ -18,7 +18,7 @@ import socket from "./socket";
 import game_init from "./answer";
 
 var channel = socket.channel('games:' + window.gameName, {});
-
+console.log(window.username);
 channel.on('shout', function (input){
   var li = document.createElement("li");
   var name = input.name;

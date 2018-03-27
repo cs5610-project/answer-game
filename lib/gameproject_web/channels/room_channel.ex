@@ -69,6 +69,14 @@ defmodule GameprojectWeb.RoomChannel do
      {:reply, {:ok, %{ "view" => gameState}}, socket}
   end
 
+  def handle_in("reset", %{}, socket) do
+     currState = socket.assigns[:game]
+     name = socket.assigns[:name]
+     gameState = Gameproject.Chatroom.Game.load()
+     socket = assign(socket, :game, gameState)
+     Gameproject.GameBackup.save(name, gameState)
+    {:reply, {:ok, %{"view" => gameState}}, socket}
+end
 
  def handle_info(:after_join, socket) do
     Gameproject.Chatroom.Message.get_messages(socket.assigns[:name])

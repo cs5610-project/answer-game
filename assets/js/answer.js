@@ -15,7 +15,9 @@ const initState = {
       p2_chance: 1,
       question_alts: [],
       user_answer: '',
-      answer: ''     
+      answer: '',
+      player_capcity: 0,
+      players: []     
 
     }
 
@@ -51,20 +53,27 @@ class Answer extends React.Component{
     console.log(question, answer);
     console.log(this.state.answer);
     let a = document.getElementById("form");
-        	
+    let b = document.getElementById("timer_div");
+            	
     if(this.state.answer[0] === answer){
       
-       this.channel.push("score-check", {question: question}).receive("ok", this.gotView.bind(this))
+       this.channel.push("score-check", {question: question, answer: answer}).receive("ok", this.gotView.bind(this))
        alert("correct answer");
        document.getElementById('question').innerHTML = '';
        a.className = "hide";
+       b.className = "hide";
        
 }    else
     {
     alert(`Wrong ! You should chose ${this.state.answer} .`);
     document.getElementById('question').innerHTML = '';
     a.className = "hide";
+    b.className = "hide";
   }
+}
+
+ reset(){
+	this.channel.push("reset", {}).receive("ok", this.gotView.bind(this))
 }
 
  user_click(index1)
@@ -80,10 +89,12 @@ var interval = setInterval(function() {
     document.getElementById('timer_div').innerHTML = --seconds_left;
 
     if (seconds_left <= 0)
-    {
-         document.getElementById('timer_div').innerHTML = "Times up"
+    {   let  b = document.getElementById('timer_div');
+         alert("Times up");
+         
          document.getElementById('question').innerHTML = '';
          a.className = "hide";
+         b.className = "hide";
  //      clearInterval(this.interval);
 
        clearInterval(interval);
@@ -106,7 +117,7 @@ var interval = setInterval(function() {
     return(
       <div className='container'>
         <div className='row'>
-          <Score state = {this.state} />
+          <Score state = {this.state} onClick = {this.reset.bind(this)}/>
          </div>
 
          <div className = 'row'>
@@ -211,11 +222,13 @@ function Score(props) {
   let p1_score = props.state.p1_score;
   let p2_score = props.state.p2_score;
 
-  return (
+  return (<div>
     <div className='col-md-6'>
       <p><b>Player_1 Score: { p1_score }</b></p>
       <p><b>Player_2 Score: { p2_score } </b></p>
     </div>
+
+<div id = "reset"><Button className ="btn btn-success" onClick = {props.onClick}> Reset Game </Button></div></div>
   );
 }
 
@@ -226,4 +239,3 @@ return (
                 {props.value}
 </Button></div>);
 }
-
