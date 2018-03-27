@@ -104,3 +104,15 @@ input[type="radio"] {
 .submit-button:active {
   transform: translateY(1px);
 }
+
+.alts-form:empty{
+display: none;
+}
+
+.hide{
+ visibility: hidden;
+}
+
+.show{
+ visibility: visible;
+}

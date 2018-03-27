@@ -50,13 +50,20 @@ class Answer extends React.Component{
    var  answer = this.state.user_answer;
     console.log(question, answer);
     console.log(this.state.answer);
+    let a = document.getElementById("form");
+        	
     if(this.state.answer[0] === answer){
       
        this.channel.push("score-check", {question: question}).receive("ok", this.gotView.bind(this))
        alert("correct answer");
+       document.getElementById('question').innerHTML = '';
+       a.className = "hide";
+       
 }    else
     {
     alert(`Wrong ! You should chose ${this.state.answer} .`);
+    document.getElementById('question').innerHTML = '';
+    a.className = "hide";
   }
 }
 
@@ -66,13 +73,32 @@ class Answer extends React.Component{
     if(active_scores[index1] != "*"){
        console.log(this.state.questions[index1])
        document.getElementById('question').innerHTML = this.state.questions[index1];
-      
+       let a = document.getElementById("form");
+       a.className = "show";
+       var seconds_left = 10;
+var interval = setInterval(function() {
+    document.getElementById('timer_div').innerHTML = --seconds_left;
+
+    if (seconds_left <= 0)
+    {
+         document.getElementById('timer_div').innerHTML = "Times up"
+         document.getElementById('question').innerHTML = '';
+         a.className = "hide";
+ //      clearInterval(this.interval);
+
+       clearInterval(interval);
+    }
+}, 1000);
        this.channel.push("user-click", {index: index1}).receive("ok", this.gotView.bind(this))
+       
 }
    else{
     alert("Question Attempted");
 }
 } 
+
+
+  
 
   render(){
     let cards = this.state.active_scores;
@@ -107,8 +133,11 @@ class Answer extends React.Component{
 
         <div className='row' id='question'>
         </div>
- <form onSubmit={this.handleSubmit}>        
-        <ul>
+<div id = "timer_div"> </div>
+<div id="form" className = "hide">
+
+ <form onSubmit={this.handleSubmit} >        
+        <ul class = "alts-form">
           <li>
             <label class = "radio-inline">
               <input
@@ -161,7 +190,7 @@ class Answer extends React.Component{
 
         <button type="submit" className="submit-button">Make your choice</button>
       </form>
-
+</div>
       </div>
     );
  
@@ -197,60 +226,4 @@ return (
                 {props.value}
 </Button></div>);
 }
-/*
-function Alternatives(props){
-// console.log(props.value.length);
-  if(props.value.length == 0){
-   console.log(props.value);
-   return(<div> </div>);
-}
-else{
-return (<div>
-        <h1> hey</h1>
-    <form onSubmit={this.handleSubmit}>
-        <p className="title">Select a pizza size:</p>
-        
-        <ul>
-          <li>
-            <label>
-              <input
-                type="radio"
-                value= {Enum.at(props.value, 0)}
-                checked={this.state.user_answer == Enum.at(props.value, 0)}
-                onChange={this.handleChange}
-              />
-              {Enum.at(props.value, 0)}
-            </label>
-          </li>
-          
-          <li>
-            <label>
-              <input
-                type="radio"
-                value= "medium"
-                checked={this.state.user_answer == "medium"}
-                onChange={this.handleChange}
-              />
-              "medium"
-            </label>
-          </li>
 
-          <li>
-            <label>
-              <input
-                type="radio"
-                value= "large"
-                checked={this.state.user_answer == "large"}
-                onChange={this.handleChange}
-              />
-              "large"
-            </label>
-          </li>
-        </ul>
-
-        <button type="submit" className="submit-button">Make your choice</button>
-      </form>
-</div>);
-}
-}
-*/
