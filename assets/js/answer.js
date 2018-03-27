@@ -62,6 +62,7 @@ class Answer extends React.Component{
        document.getElementById('question').innerHTML = '';
        a.className = "hide";
        b.className = "hide";
+       clearInterval(this.interval);
        
 }    else
     {
@@ -69,6 +70,7 @@ class Answer extends React.Component{
     document.getElementById('question').innerHTML = '';
     a.className = "hide";
     b.className = "hide";
+    clearInterval(this.interval);
   }
 }
 
@@ -79,16 +81,25 @@ class Answer extends React.Component{
  user_click(index1)
 {
     let active_scores = this.state.active_scores;
-    if(active_scores[index1] != "*"){
+    const allEqual = arr => arr.every( v => v === "*" )
+    if(allEqual(active_scores)){
+       alert("Game Over")
+	}
+   else if(active_scores[index1] != "*"){
        console.log(this.state.questions[index1])
        document.getElementById('question').innerHTML = this.state.questions[index1];
        let a = document.getElementById("form");
+       let  b = document.getElementById('timer_div');
        a.className = "show";
-       var seconds_left = 10;
-var interval = setInterval(function() {
+       b.className = "show";
+      var seconds_left = 20;
+      var interval = setInterval(function() {
     document.getElementById('timer_div').innerHTML = --seconds_left;
-
-    if (seconds_left <= 0)
+    if (a.className === "hide")
+      {
+       clearInterval(interval);
+}
+   else  if (seconds_left <= 0)
     {   let  b = document.getElementById('timer_div');
          alert("Times up");
          
@@ -107,7 +118,6 @@ var interval = setInterval(function() {
     alert("Question Attempted");
 }
 } 
-
 
   
 
@@ -144,7 +154,7 @@ var interval = setInterval(function() {
 
         <div className='row' id='question'>
         </div>
-<div id = "timer_div"> </div>
+<div id = "timer_div" > </div>
 <div id="form" className = "hide">
 
  <form onSubmit={this.handleSubmit} >        
