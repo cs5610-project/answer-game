@@ -26,16 +26,6 @@ channel.on('shout', function (input){
   ul.appendChild(li);
 });
 */
-$("#confirm-btn-new").click( () => {
-  let name = $("#name-input").val();
-  window.location = `/games/${name}`;
-})
-
-
-$("#confirm-btn-old").click( () => {
- let name = $("#select-input option:selected").val();
-  window.location = `/games/${name}`;
-})
 
 
 
@@ -68,6 +58,18 @@ channel
 
 
 function init() {
+
+  $("#confirm-btn-new").click( () => {
+    let name = $("#name-input").val();
+    window.location = `/games/${name}`;
+  })
+
+
+  $("#confirm-btn-old").click( () => {
+   let name = $("#select-input option:selected").val();
+    window.location = `/games/${name}`;
+  })
+
 
   let root = document.getElementById('game');
   if(!root) {
