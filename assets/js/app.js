@@ -18,14 +18,14 @@ import socket from "./socket";
 import game_init from "./answer";
 
 var channel = socket.channel('games:' + window.gameName, {});
-/*
+
 channel.on('shout', function (input){
   var li = document.createElement("li");
   var name = input.name;
   li.innerHTML = '<b>' + name + '</b>: ' + input.message;
   ul.appendChild(li);
 });
-*/
+
 $("#confirm-btn-new").click( () => {
   let name = $("#name-input").val();
   window.location = `/games/${name}`;
@@ -39,7 +39,7 @@ $("#confirm-btn-old").click( () => {
 
 
 
-/*var ul = document.getElementById('msg-list');
+var ul = document.getElementById('msg-list');
 var name = document.getElementById('name');
 name.value = window.username;
 var message = document.getElementById('message');
@@ -56,7 +56,7 @@ message.addEventListener('keypress', function (event) {
   }
 });
 
-
+/*
 channel
   .join()
   .receive('ok', resp => {

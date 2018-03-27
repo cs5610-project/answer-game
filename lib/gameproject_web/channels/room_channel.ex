@@ -5,7 +5,7 @@ defmodule GameprojectWeb.RoomChannel do
 
   def join("games:" <> name, payload, socket) do
     if authorized?(payload) do
-     # send(self(), :after_join)
+     send(self(), :after_join)
 
     game = Gameproject.GameBackup.load(name) || Gameproject.Chatroom.Game.load()
      
@@ -70,13 +70,14 @@ defmodule GameprojectWeb.RoomChannel do
   end
 
 
-# def handle_info(:after_join, socket) do
-#    Gameproject.Chatroom.Message.get_messages(socket.assigns[:name])
-#    |> Enum.each(fn msg -> push(socket, "shout", %{
-#      name: msg.name,
-#      message: msg.message,
-#      game_name: msg.game_name,
-#      }) end)
-#    {:noreply, socket} # :noreply
-#  end
+ def handle_info(:after_join, socket) do
+    Gameproject.Chatroom.Message.get_messages(socket.assigns[:name])
+    |> Enum.each(fn msg -> push(socket, "shout", %{
+      name: msg.name,
+      message: msg.message,
+      game_name: msg.game_name,
+      }) end)
+    {:noreply, socket} 
+# :noreply
+  end
 end
