@@ -14,7 +14,9 @@ defmodule Gameproject.Chatroom.Game do
       p2_chance: 0,
      question_alts: [],
      user_answer: '',
-     answer: ''
+     answer: '',
+     p1: '',
+     p2: ''
     }
   end
 

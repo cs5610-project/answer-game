@@ -16,8 +16,8 @@ const initState = {
       question_alts: [],
       user_answer: '',
       answer: '',
-      player_capcity: 0,
-      players: []     
+      p1: '',
+      p2: '',    
 
     }
 
@@ -137,16 +137,12 @@ class Answer extends React.Component{
             {topics.map( (topic,i) =>
                  <Topics value={topic}  key = {i} />
               )}
-         </div>
-         </div>
+     
+     
         </div>
-        <div className='row'>
-          <div className='col-md-8'>
-            <div className='grid-container'>
-
-              {cards.map( (card,i) =>
-               
-                 <Card  onClick =  {this.user_click.bind(this,i)} value={card}  key = {i}/>
+        
+<div className='grid-container'>
+              {cards.map( (card,i) => <Card  onClick =  {this.user_click.bind(this,i)} value={card}  key = {i}/>
               )}
             </div>
           </div>
@@ -221,8 +217,7 @@ class Answer extends React.Component{
 
 
 function Card(props) {
-  return ( <div className ='show-card'>
-        	<Button className ={props.className}  onClick ={props.onClick}>
+  return (<div><Button className = "btn-default"  onClick ={props.onClick}>
         	{props.value}
 </Button></div>);
 }
@@ -243,9 +238,7 @@ function Score(props) {
 }
 
 function Topics(props) {
-return (
-   <div className = 'topic-card' >
-                <Button className ={props.className} >
+return (<div><Button className ='btn-secondary' >
                 {props.value}
 </Button></div>);
 }

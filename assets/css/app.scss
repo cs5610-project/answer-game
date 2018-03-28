@@ -17,20 +17,20 @@ footer.self-footer {
 
 .grid-container {
     display: grid;
-    grid-template-columns: 20% 20% 20% 20% 20% 20% 20% 20% 20% 20%;
-    background-color: blue;
+    grid-template-columns: 15% 15% 15% 15% 15% 15% 15% 15% 15% 15%;
+    border-color: black;
     padding: 10px;
     cursor: pointer;
-    margin: 20px;
+    margin: 10px;
 }
 
 .grid-topics{
     display: grid;
-    grid-template-columns: 45% 45% 45% 45% 45%;
-    background-color: blue;
-    padding:20px;
+    grid-template-columns: 30% 35% 35% 28% 30%;
+   
+    padding:10px;
     cursor: pointer;
-    margin: 20px;
+    margin: 10px;
 
 }
 
@@ -51,9 +51,9 @@ footer.self-footer {
 
 }
 
-.hide-card {
-    visibility: hidden;
-}
+
+   
+
 
 
 form {
@@ -89,7 +89,7 @@ input[type="radio"] {
   border: 0;
   font-family: inherit;
   font-size: inherit;
-  outline: none;
+ 
   cursor: pointer;
   background-color: #1E90FF;
   color: #fff;
@@ -116,3 +116,5 @@ display: none;
 .show{
  visibility: visible;
 }
+
+
